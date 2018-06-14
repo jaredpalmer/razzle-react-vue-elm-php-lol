@@ -1,15 +1,15 @@
 import express from 'express';
-
 // VUE
 import Vue from 'vue';
 const renderer = require('vue-server-renderer').createRenderer();
-import { createVueApp } from './Main.vue.js';
 
 // REACT
 import React from 'react';
 import { StaticRouter } from 'react-router-dom';
 import { renderToString } from 'react-dom/server';
-import App from './App';
+
+// REACT AND VUE IN ONE FILE!
+import App, { createVueApp } from './App';
 
 // ELM
 import elmStaticHtml from 'elm-static-html-lib';
@@ -38,7 +38,7 @@ server
     const model = { counter: 5 };
     const options = { model: model, decoder: 'App.decodeModel' };
     const elmMarkup = await elmStaticHtml(process.cwd(), 'App.view', options);
-    console.log('render');
+
     res.status(200).send(
       `<!doctype html>
     <html lang="">
@@ -60,9 +60,9 @@ server
         }
     </head>
     <body>
-        <div id="vue">${vueMarkup}</div>
-        <div id="react">${reactMarkup}</div>
-        <div id="elm">${elmMarkup}</div>
+        <div id="vue">${vueMarkup}</div>       
+        <div id="react">${reactMarkup}</div>  
+        <div id="elm">${elmMarkup}</div>      
     </body>
 </html>`
     );

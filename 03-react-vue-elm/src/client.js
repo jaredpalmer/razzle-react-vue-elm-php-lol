@@ -1,11 +1,11 @@
-import { createVueApp } from './Main.vue.js';
+// REACT
 import React from 'react';
 import { hydrate } from 'react-dom';
-import App from './App';
 import BrowserRouter from 'react-router-dom/BrowserRouter';
-import Elm from './Main';
-// Give PHP access to React
-window.React = React;
+// REACT AND VUE FROM THE SAME FILE!
+import App, { createVueApp } from './App';
+import Elm from './Main'; // Import ELM
+
 // VUE
 const { app } = createVueApp();
 app.$mount('#vue');
