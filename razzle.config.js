@@ -5,11 +5,7 @@ module.exports = {
   modify(config, { target, dev }) {
     const appConfig = config;
     // Vue
-    appConfig.resolve.extensions = [
-      ...appConfig.resolve.extensions,
-      '.vue',
-      '.tsx',
-    ];
+    appConfig.resolve.extensions = [...appConfig.resolve.extensions, '.vue'];
     appConfig.resolve.alias = Object.assign({}, appConfig.resolve.alias, {
       vue$: 'vue/dist/vue.esm.js',
     });
@@ -33,7 +29,8 @@ module.exports = {
     // ELM
     appConfig.module.rules[2].exclude.push(/\.(elm)$/);
 
-    appConfig.module.noParse = [/.elm$/];
+    appConfig.module.noParse = [/.elm$/, /.php$/];
+
     appConfig.resolve.extensions = config.resolve.extensions.concat(['.elm']);
 
     if (dev) {
@@ -69,6 +66,44 @@ module.exports = {
           },
         ],
       });
+    }
+
+    // BABEL PHP WHAT'S GOOD?!?!?!?!?
+    appConfig.resolve.extensions = config.resolve.extensions.concat(['.php']);
+    appConfig.module.rules[2].exclude.push(/\.(php)$/);
+    appConfig.module.noParse.push(/.php$/);
+    const babelLoaderFinder = makeLoaderFinder('babel-loader');
+    const babelLoader = appConfig.module.rules.find(babelLoaderFinder);
+    appConfig.module.rules.push({
+      test: /\.php$/,
+      include: babelLoader.include,
+      use: [
+        {
+          loader: 'babel-loader',
+          options: {
+            presets: [require.resolve('babel-preset-php')],
+            babelrc: false,
+          },
+        },
+      ],
+    });
+    if (target === 'web') {
+      appConfig.externals = {
+        // react: {
+        //   root: 'React',
+        //   commonjs2: 'react',
+        //   commonjs: 'react',
+        //   amd: 'react',
+        //   umd: 'react',
+        // },
+        // 'react-dom': {
+        //   root: 'ReactDOM',
+        //   commonjs2: 'react-dom',
+        //   commonjs: 'react-dom',
+        //   amd: 'react-dom',
+        //   umd: 'react-dom',
+        // },
+      };
     }
 
     return appConfig;

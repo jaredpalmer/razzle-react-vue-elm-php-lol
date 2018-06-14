@@ -1,4 +1,5 @@
 import express from 'express';
+
 // VUE
 import Vue from 'vue';
 const renderer = require('vue-server-renderer').createRenderer();
@@ -8,7 +9,7 @@ import { createVueApp } from './Main.vue.js';
 import React from 'react';
 import { StaticRouter } from 'react-router-dom';
 import { renderToString } from 'react-dom/server';
-import App from './App.react';
+import App from './App';
 
 // ELM
 import elmStaticHtml from 'elm-static-html-lib';
@@ -37,7 +38,7 @@ server
     const model = { counter: 5 };
     const options = { model: model, decoder: 'App.decodeModel' };
     const elmMarkup = await elmStaticHtml(process.cwd(), 'App.view', options);
-
+    console.log('render');
     res.status(200).send(
       `<!doctype html>
     <html lang="">
@@ -46,6 +47,7 @@ server
         <meta charset="utf-8" />
         <title>Welcome to Razzle</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        
         ${
           assets.client.css
             ? `<link rel="stylesheet" href="${assets.client.css}">`
@@ -58,7 +60,7 @@ server
         }
     </head>
     <body>
-        <div id="vue"><div data-server-rendered="true">${vueMarkup}</div></div>
+        <div id="vue">${vueMarkup}</div>
         <div id="react">${reactMarkup}</div>
         <div id="elm">${elmMarkup}</div>
     </body>

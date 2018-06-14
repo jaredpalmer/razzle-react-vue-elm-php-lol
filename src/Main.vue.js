@@ -8,5 +8,6 @@ export function createVueApp() {
     // the root instance simply renders the App component.
     render: h => h(App),
   });
+
   return { app };
 }

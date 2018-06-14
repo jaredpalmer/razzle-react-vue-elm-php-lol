@@ -1,9 +1,11 @@
 import { createVueApp } from './Main.vue.js';
 import React from 'react';
 import { hydrate } from 'react-dom';
-import App from './App.react';
+import App from './App';
 import BrowserRouter from 'react-router-dom/BrowserRouter';
-const Elm = require('./Main');
+import Elm from './Main';
+// Give PHP access to React
+window.React = React;
 
 // VUE
 const { app } = createVueApp();

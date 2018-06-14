@@ -1,7 +1,12 @@
 <template>
-  <div>
-    <img src="https://vuejs.org/images/logo.png" alt="Vue">
-    <h1>{{ greeting }}</h1>
+  <div class="app">
+    <nav>
+      My Razzle Dazzle Application
+    </nav>
+    <div class="section">
+      <img src="https://vuejs.org/images/logo.png" alt="Vue">
+      <h1>{{ greeting }}</h1>
+    </div>
   </div>
 </template>
 
@@ -16,9 +21,20 @@ export default {
 </script>
 
 <style scoped>
-div {
-  padding: 2rem;
+nav {
+  width: 100%;
+  height: 50px;
+  line-height: 49px;
+  text-align: center;
+  font-weight: bold;
+  border-bottom: 1px solid #eee;
 }
+
+.section {
+  padding: 2rem;
+  background: #e4f5ef;
+}
+
 h1 {
   font-size: 2em;
   color: #42b983;
