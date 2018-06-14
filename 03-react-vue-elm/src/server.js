@@ -2,13 +2,14 @@ import express from 'express';
 // VUE
 import Vue from 'vue';
 const renderer = require('vue-server-renderer').createRenderer();
-import { createVueApp } from './Main.vue.js';
 
 // REACT
 import React from 'react';
 import { StaticRouter } from 'react-router-dom';
 import { renderToString } from 'react-dom/server';
-import App from './App.react';
+
+// REACT AND VUE IN ONE FILE!
+import App, { createVueApp } from './App';
 
 // ELM
 import elmStaticHtml from 'elm-static-html-lib';
@@ -46,6 +47,7 @@ server
         <meta charset="utf-8" />
         <title>Welcome to Razzle</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        
         ${
           assets.client.css
             ? `<link rel="stylesheet" href="${assets.client.css}">`
@@ -58,9 +60,9 @@ server
         }
     </head>
     <body>
-        <div id="vue"><div data-server-rendered="true">${vueMarkup}</div></div>
-        <div id="react">${reactMarkup}</div>
-        <div id="elm">${elmMarkup}</div>
+        <div id="vue">${vueMarkup}</div>       
+        <div id="react">${reactMarkup}</div>  
+        <div id="elm">${elmMarkup}</div>      
     </body>
 </html>`
     );

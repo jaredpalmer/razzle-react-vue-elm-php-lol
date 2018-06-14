@@ -71,5 +71,4 @@ view model =
                 [ text "+ 1" ]
             , text <| toString model
             ]
-        , p [] [ text "A simple example of how to make Razzle and Elm work together!" ]
         ]

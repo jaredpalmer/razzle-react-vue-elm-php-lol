@@ -1,7 +1,7 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  font-family: 'Colfax';
 }
 
 .Home {
@@ -25,11 +25,6 @@ body {
 
 .Home-resources {
   list-style: none;
-}
-
-.Home-resources>li {
-  display: inline-block;
-  padding: 1rem;
 }
 
 @keyframes Home-logo-spin {

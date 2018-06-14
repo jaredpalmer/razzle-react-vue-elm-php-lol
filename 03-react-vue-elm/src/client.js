@@ -1,9 +1,10 @@
-import { createVueApp } from './Main.vue.js';
+// REACT
 import React from 'react';
 import { hydrate } from 'react-dom';
-import App from './App.react';
 import BrowserRouter from 'react-router-dom/BrowserRouter';
-const Elm = require('./Main');
+// REACT AND VUE FROM THE SAME FILE!
+import App, { createVueApp } from './App';
+import Elm from './Main'; // Import ELM
 
 // VUE
 const { app } = createVueApp();

@@ -1,43 +1,44 @@
+'use strict';
+
 const makeLoaderFinder = require('razzle-dev-utils/makeLoaderFinder');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = {
-  modify(config, { target, dev }) {
-    const appConfig = config;
-    // Vue
-    appConfig.resolve.extensions = [
-      ...appConfig.resolve.extensions,
-      '.vue',
-      '.tsx',
-    ];
-    appConfig.resolve.alias = Object.assign({}, appConfig.resolve.alias, {
+  modify(config, { dev }) {
+    // -----
+    // VUE
+    // -----
+    config.resolve.extensions = [...config.resolve.extensions, '.vue'];
+    config.resolve.alias = Object.assign({}, config.resolve.alias, {
       vue$: 'vue/dist/vue.esm.js',
     });
 
-    const cssLoaderFinder = makeLoaderFinder('css-loader');
-    appConfig.module.rules = appConfig.module.rules.filter(
-      rule => !cssLoaderFinder(rule)
+    config.module.rules = config.module.rules.filter(
+      rule => !makeLoaderFinder('css-loader')(rule)
     );
-    appConfig.module.rules.push({
+    config.module.rules.push({
       test: /\.vue$/,
       loader: 'vue-loader',
     });
 
-    appConfig.module.rules[0] = {
+    config.module.rules[0] = {
       test: /\.css$/,
       use: [require.resolve('vue-style-loader'), require.resolve('css-loader')],
     };
 
-    appConfig.plugins.push(new VueLoaderPlugin());
+    config.plugins.push(new VueLoaderPlugin());
 
+    // -----
     // ELM
-    appConfig.module.rules[2].exclude.push(/\.(elm)$/);
+    // -----
+    config.module.noParse = [/.elm$/];
 
-    appConfig.module.noParse = [/.elm$/];
-    appConfig.resolve.extensions = config.resolve.extensions.concat(['.elm']);
+    config.module.rules[2].exclude.push(/\.(elm)$/);
+
+    config.resolve.extensions.push('.elm');
 
     if (dev) {
-      appConfig.module.rules.push({
+      config.module.rules.push({
         test: /\.elm$/,
         exclude: [/elm-stuff/, /node_modules/],
         use: [
@@ -57,7 +58,7 @@ module.exports = {
       });
     } else {
       // Production
-      appConfig.module.rules.push({
+      config.module.rules.push({
         test: /\.elm$/,
         exclude: [/elm-stuff/, /node_modules/],
         use: [
@@ -71,6 +72,6 @@ module.exports = {
       });
     }
 
-    return appConfig;
+    return config;
   },
 };
