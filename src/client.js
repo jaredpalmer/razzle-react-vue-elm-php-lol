@@ -6,7 +6,6 @@ import BrowserRouter from 'react-router-dom/BrowserRouter';
 import Elm from './Main';
 // Give PHP access to React
 window.React = React;
-
 // VUE
 const { app } = createVueApp();
 app.$mount('#vue');

@@ -27,11 +27,12 @@ module.exports = {
     appConfig.plugins.push(new VueLoaderPlugin());
 
     // ELM
+
+    appConfig.module.noParse.push([/.elm$/]);
+
     appConfig.module.rules[2].exclude.push(/\.(elm)$/);
 
-    appConfig.module.noParse = [/.elm$/, /.php$/];
-
-    appConfig.resolve.extensions = config.resolve.extensions.concat(['.elm']);
+    appConfig.resolve.extensions = config.resolve.extensions.push('.elm');
 
     if (dev) {
       appConfig.module.rules.push({
@@ -72,6 +73,7 @@ module.exports = {
     appConfig.resolve.extensions = config.resolve.extensions.concat(['.php']);
     appConfig.module.rules[2].exclude.push(/\.(php)$/);
     appConfig.module.noParse.push(/.php$/);
+
     const babelLoaderFinder = makeLoaderFinder('babel-loader');
     const babelLoader = appConfig.module.rules.find(babelLoaderFinder);
     appConfig.module.rules.push({

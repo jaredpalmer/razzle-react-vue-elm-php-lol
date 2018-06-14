@@ -1,4 +1,5 @@
-<?
+<?php
+
 $App = function($props) {
   return $React->createElement('div', [
             'style' => [
@@ -26,7 +27,7 @@ $App = function($props) {
           $React->createElement('div', [
             'key' => 'subtitle',          
             'onClick' => function () {
-                console.log('fuck');
+                alert('shoot!');
             },
             'style' => [
               'width' => '100%',
