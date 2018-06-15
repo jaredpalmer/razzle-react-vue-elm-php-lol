@@ -24,8 +24,9 @@ module.exports = {
     // making sure to ignore .babelrc
     config.module.rules.push({
       test: /\.php$/,
-      include: config.module.rules.find(makeLoaderFinder('babel-loader'))
-        .include,
+      include: config.module.rules.find(
+        makeLoaderFinder('babel-loader')
+      ).include,
       use: [
         {
           loader: 'babel-loader',
@@ -53,10 +54,13 @@ module.exports = {
       loader: 'vue-loader',
     });
 
-    config.module.rules[0] = {
+    config.module.rules.push({
       test: /\.css$/,
-      use: [require.resolve('vue-style-loader'), require.resolve('css-loader')],
-    };
+      use: [
+        require.resolve('vue-style-loader'),
+        require.resolve('css-loader'),
+      ],
+    });
 
     config.plugins.push(new VueLoaderPlugin());
 
@@ -65,7 +69,9 @@ module.exports = {
     // -----
     config.module.noParse.concat([/.elm$/]);
 
-    config.module.rules[2].exclude.push(/\.(elm)$/);
+    config.module.rules[
+      config.module.rules.findIndex(makeLoaderFinder('file-loader'))
+    ].exclude.push(/\.(elm)$/);
 
     config.resolve.extensions.push('.elm');
 
@@ -74,15 +80,17 @@ module.exports = {
         test: /\.elm$/,
         exclude: [/elm-stuff/, /node_modules/],
         use: [
-          {
-            loader: 'elm-hot-loader',
-          },
+          // {
+          //   loader: 'elm-hot-loader',
+          // },
           {
             loader: 'elm-webpack-loader',
             options: {
               verbose: true,
               warn: true,
-              pathToMake: require('elm/platform').executablePaths['elm-make'],
+              pathToMake: require('elm/platform').executablePaths[
+                'elm-make'
+              ],
               forceWatch: true,
             },
           },
@@ -97,12 +105,18 @@ module.exports = {
           {
             loader: 'elm-webpack-loader',
             options: {
-              pathToMake: require('elm/platform').executablePaths['elm-make'],
+              pathToMake: require('elm/platform').executablePaths[
+                'elm-make'
+              ],
             },
           },
         ],
       });
     }
+    // remove eslint
+    config.module.rules = config.module.rules.filter(
+      rule => !makeLoaderFinder('eslint-loader')(rule)
+    );
 
     return config;
   },
